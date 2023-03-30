@@ -21,6 +21,7 @@ import org.forgerock.openicf.connectors.groovy.OperationType
 import org.forgerock.openicf.connectors.scriptedrest.ScriptedRESTConfiguration
 import org.forgerock.openicf.connectors.scriptedrest.SimpleCRESTFilterVisitor
 import org.forgerock.openicf.connectors.scriptedrest.VisitorParameter
+import org.forgerock.openicf.connectors.groovy.MapFilterVisitor
 import org.identityconnectors.common.logging.Log
 import org.identityconnectors.framework.common.objects.Attribute
 import org.identityconnectors.framework.common.objects.AttributeUtil
@@ -51,35 +52,57 @@ def resultHandler = handler
 
 log.info("Entering " + operation + " Script")
 
-def queryFilter = 'true'
+def queryFilter = "SELECT * FROM c"
+def cosmosdbQuery= [:]
+
+def fieldMap = [
+        "organization": [
+                "__UID__" : "c.id",
+                "__NAME__": "c.name"
+        ],
+        "__ACCOUNT__" : [
+                "__UID__" : "c.id",
+                "__NAME__": "c.uid"
+        ],
+        "__GROUP__"   : [
+                "__UID__" : "c.id",
+                "__NAME__": "c.name"
+        ]
+]
+
 
 if (filter != null) {
-    queryFilter = filter.accept(SimpleCRESTFilterVisitor.INSTANCE, [
-            translateName: { String name ->
-                if (AttributeUtil.namesEqual(name, Uid.NAME)) {
-                    return "_id"
-                } else if (AttributeUtil.namesEqual(name, Name.NAME)) {
-                    return "_id"
-                } else if (AttributeUtil.namesEqual(name, "emailAddress")) {
-                    return "contactInformation/emailAddress"
-                } else if (AttributeUtil.namesEqual(name, "familyName")) {
-                    return "name/familyName"
-                } else if (AttributeUtil.namesEqual(name, "givenName")) {
-                    return "name/givenName"
-                } else if (AttributeUtil.namesEqual(name, "displayName")) {
-                    return "displayName"
-                }  else {
-                    throw new IllegalArgumentException("Unknown field name");
+
+    def query = filter.accept(MapFilterVisitor.INSTANCE, null)
+    // this closure function recurses through the (potentially complex) query object in order to build an equivalent
+    // SQL 'where' expression
+    def queryParser
+    queryParser = { queryObj ->
+      
+        if (queryObj.operation == "OR" || queryObj.operation == "AND") {
+            return "(" + queryParser(queryObj.right) + " " + queryObj.operation + " " + queryParser(queryObj.left) + ")"
+        } else {
+
+            if (fieldMap[objectClass.objectClassValue] && fieldMap[objectClass.objectClassValue][queryObj.get("left")]) {
+                queryObj.put("left", fieldMap[objectClass.objectClassValue][queryObj.get("left")])
+            }
+
+            def left = queryObj.get('left')
+            def not = queryObj.get('not')
+            def template
+            switch (queryObj.get('operation')) {
+                case 'EQUALS':
+                    template = "$left ${not ? "<>" : "="} " + "'"+queryObj.get("right")+"'"
+                    break
                 }
-            },
-            convertValue : { Attribute value ->
-                if (AttributeUtil.namesEqual(value.name, "members")) {
-                    return value.value
-                } else {
-                    return AttributeUtil.getStringValue(value)
-                }
-            }] as VisitorParameter).toString();
+            return template.toString()
+        }
+    }
+
+   queryFilter=  "SELECT * FROM c where "  + queryParser(query)
 }
+cosmosdbQuery['query'] = queryFilter
+
 
 def getCosmosDBAuthToken(uripath, date, verb, mastKey) {
 
@@ -87,7 +110,6 @@ def getCosmosDBAuthToken(uripath, date, verb, mastKey) {
   // or if it is on a resource (odd would mean a resource, even would mean an item)
   def strippedparts = uripath.split("/");
   def strippedcount = (strippedparts.length - 1);
-  log.info("truestrippedcount " + strippedcount);
 
   // define resourceId/Type now so we can assign based on the amount of levels
   def resourceId = "";
@@ -127,11 +149,8 @@ def getMSDate() {
 }
 
 
-def jsonSlurper = new JsonSlurper()
-def jsonQuery = jsonSlurper.parseText('{"query" : "SELECT * FROM c"}');
-
-log.info("SEARCH Query: " + jsonQuery);
-
+switch (objectClass) {
+    case ObjectClass.ACCOUNT:
 def mastKey=SecurityUtil.decrypt(configuration.getPassword());
 
 log.info("masterkey successfully retrieved!" );
@@ -155,7 +174,7 @@ def searchResult = connection.request(POST, JSON) {
   'x-ms-CosmosDB-isquery' = "true"
 
   uri.path = '/dbs/users/colls/usercoll/docs';
-  body = jsonQuery
+  body = cosmosdbQuery
 
 
   response.failure = {
@@ -170,7 +189,6 @@ def searchResult = connection.request(POST, JSON) {
 
     json.Documents.each() {
       value ->
-        //log.info("json value" + value);
       resultHandler {
         uid value.id
         id value.id
@@ -186,3 +204,4 @@ def searchResult = connection.request(POST, JSON) {
 }
 
 return new SearchResult()
+}
