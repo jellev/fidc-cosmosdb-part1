@@ -1,0 +1,275 @@
+{
+  "_id": "provisioner.openicf/cosmosdb",
+  "configurationProperties": {
+    "OAuthClientId": null,
+    "OAuthClientSecret": null,
+    "OAuthGrantType": "CLIENT_CREDENTIALS",
+    "OAuthRefreshToken": null,
+    "OAuthScope": null,
+    "OAuthTokenEndpoint": null,
+    "authenticateScriptFileName": "AuthenticateScript.groovy",
+    "classpath": [],
+    "createScriptFileName": "CreateScript.groovy",
+    "customConfiguration": null,
+    "customSensitiveConfiguration": null,
+    "customizerScriptFileName": "CustomizerScript.groovy",
+    "debug": false,
+    "defaultAuthMethod": "BASIC",
+    "defaultContentType": "application/json",
+    "defaultRequestHeaders": null,
+    "deleteScriptFileName": "DeleteScript.groovy",
+    "disabledGlobalASTTransformations": null,
+    "minimumRecompilationInterval": 100,
+    "password": null,
+    "proxyAddress": null,
+    "recompileGroovySource": false,
+    "resolveUsernameScriptFileName": "ResolveUsernameScript.groovy",
+    "schemaScriptFileName": "SchemaScript.groovy",
+    "scriptBaseClass": null,
+    "scriptExtensions": [
+      "groovy"
+    ],
+    "scriptOnResourceScriptFileName": "ScriptOnResourceScript.groovy",
+    "scriptRoots": [
+      "tools"
+    ],
+    "searchScriptFileName": "SearchScript.groovy",
+    "serviceAddress": "https://jelle.documents.azure.com:443/",
+    "sourceEncoding": "UTF-8",
+    "syncScriptFileName": "SyncScript.groovy",
+    "targetDirectory": null,
+    "testScriptFileName": "TestScript.groovy",
+    "tolerance": 10,
+    "updateScriptFileName": "UpdateScript.groovy",
+    "username": "username",
+    "verbose": false,
+    "warningLevel": 1
+  },
+  "connectorRef": {
+    "bundleName": "org.forgerock.openicf.connectors.scriptedrest-connector",
+    "bundleVersion": "1.5.20.12",
+    "connectorHostRef": "rcslocal",
+    "connectorName": "org.forgerock.openicf.connectors.scriptedrest.ScriptedRESTConnector",
+    "displayName": "Scripted REST Connector",
+    "systemType": "provisioner.openicf"
+  },
+  "enabled": true,
+  "objectTypes": {
+    "__ACCOUNT__": {
+      "$schema": "http://json-schema.org/draft-03/schema",
+      "id": "__ACCOUNT__",
+      "nativeType": "__ACCOUNT__",
+      "properties": {
+        "created": {
+          "nativeName": "created",
+          "nativeType": "string",
+          "required": false,
+          "type": "string"
+        },
+        "displayName": {
+          "nativeName": "displayName",
+          "nativeType": "string",
+          "required": false,
+          "type": "string"
+        },
+        "emailAddress": {
+          "nativeName": "emailAddress",
+          "nativeType": "string",
+          "type": "string"
+        },
+        "familyName": {
+          "nativeName": "familyName",
+          "nativeType": "string",
+          "required": true,
+          "type": "string"
+        },
+        "givenName": {
+          "nativeName": "givenName",
+          "nativeType": "string",
+          "type": "string"
+        },
+        "lastModified": {
+          "nativeName": "lastModified",
+          "nativeType": "string",
+          "required": false,
+          "type": "string"
+        },
+        "marketing": {
+          "nativeName": "marketing",
+          "nativeType": "boolean",
+          "required": false,
+          "type": "boolean"
+        },
+        "note": {
+          "nativeName": "note",
+          "nativeType": "string",
+          "required": false,
+          "type": "string"
+        },
+        "telephoneNumber": {
+          "nativeName": "telephoneNumber",
+          "nativeType": "string",
+          "type": "string"
+        },
+        "totalspent": {
+          "nativeName": "totalspent",
+          "nativeType": "string",
+          "required": false,
+          "type": "string"
+        },
+        "uid": {
+          "flags": [
+            "NOT_UPDATEABLE"
+          ],
+          "nativeName": "__NAME__",
+          "nativeType": "string",
+          "required": true,
+          "type": "string"
+        },
+        "userName": {
+          "flags": [
+            "NOT_CREATABLE",
+            "NOT_UPDATEABLE"
+          ],
+          "nativeName": "userName",
+          "nativeType": "string",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "operationOptions": {
+    "AUTHENTICATE": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "CREATE": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "DELETE": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "GET": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "RESOLVEUSERNAME": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "SCHEMA": {
+      "objectFeatures": {}
+    },
+    "SCRIPT_ON_CONNECTOR": {
+      "objectFeatures": {}
+    },
+    "SCRIPT_ON_RESOURCE": {
+      "objectFeatures": {}
+    },
+    "SEARCH": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "SYNC": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "TEST": {
+      "objectFeatures": {}
+    },
+    "UPDATE": {
+      "objectFeatures": {
+        "__ACCOUNT__": {
+          "operationOptionInfo": {
+            "$schema": "http://json-schema.org/draft-03/schema",
+            "properties": {},
+            "type": "object"
+          }
+        }
+      }
+    },
+    "VALIDATE": {
+      "objectFeatures": {}
+    }
+  },
+  "operationTimeout": {
+    "AUTHENTICATE": -1,
+    "CREATE": -1,
+    "DELETE": -1,
+    "GET": -1,
+    "RESOLVEUSERNAME": -1,
+    "SCHEMA": -1,
+    "SCRIPT_ON_CONNECTOR": -1,
+    "SCRIPT_ON_RESOURCE": -1,
+    "SEARCH": -1,
+    "SYNC": -1,
+    "TEST": -1,
+    "UPDATE": -1,
+    "VALIDATE": -1
+  },
+  "poolConfigOption": {
+    "maxIdle": 10,
+    "maxObjects": 10,
+    "maxWait": 150000,
+    "minEvictableIdleTimeMillis": 120000,
+    "minIdle": 1
+  },
+  "resultsHandlerConfig": {
+    "enableAttributesToGetSearchResultsHandler": true,
+    "enableCaseInsensitiveFilter": false,
+    "enableFilteredResultsHandler": false,
+    "enableNormalizingResultsHandler": false
+  }
+}

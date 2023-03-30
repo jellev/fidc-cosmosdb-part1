@@ -1,0 +1,98 @@
+{
+  "_id": "sync",
+  "mappings": [
+    {
+      "consentRequired": false,
+      "correlationQuery": [
+        {
+          "linkQualifier": "default",
+          "expressionTree": {
+            "all": [
+              "userName"
+            ]
+          },
+          "mapping": "systemCosmosdb__ACCOUNT___managedAlpha_user",
+          "type": "text/javascript",
+          "file": "ui/correlateTreeToQueryFilter.js"
+        }
+      ],
+      "displayName": "systemCosmosdb__ACCOUNT___managedAlpha_user",
+      "icon": null,
+      "name": "systemCosmosdb__ACCOUNT___managedAlpha_user",
+      "policies": [
+        {
+          "action": "EXCEPTION",
+          "situation": "AMBIGUOUS"
+        },
+        {
+          "action": "EXCEPTION",
+          "situation": "SOURCE_MISSING"
+        },
+        {
+          "action": "EXCEPTION",
+          "situation": "MISSING"
+        },
+        {
+          "action": "EXCEPTION",
+          "situation": "FOUND_ALREADY_LINKED"
+        },
+        {
+          "action": "DELETE",
+          "situation": "UNQUALIFIED"
+        },
+        {
+          "action": "EXCEPTION",
+          "situation": "UNASSIGNED"
+        },
+        {
+          "action": "EXCEPTION",
+          "situation": "LINK_ONLY"
+        },
+        {
+          "action": "IGNORE",
+          "situation": "TARGET_IGNORED"
+        },
+        {
+          "action": "IGNORE",
+          "situation": "SOURCE_IGNORED"
+        },
+        {
+          "action": "IGNORE",
+          "situation": "ALL_GONE"
+        },
+        {
+          "action": "UPDATE",
+          "situation": "CONFIRMED"
+        },
+        {
+          "action": "UPDATE",
+          "situation": "FOUND"
+        },
+        {
+          "action": "CREATE",
+          "situation": "ABSENT"
+        }
+      ],
+      "properties": [
+        {
+          "target": "userName",
+          "source": "uid"
+        },
+        {
+          "source": "givenName",
+          "target": "givenName"
+        },
+        {
+          "source": "emailAddress",
+          "target": "mail"
+        },
+        {
+          "source": "familyName",
+          "target": "sn"
+        }
+      ],
+      "source": "system/cosmosdb/__ACCOUNT__",
+      "target": "managed/alpha_user"
+    }
+  ]
+}
